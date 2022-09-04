@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Lora' serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgb(34, 34, 34);
+}
+
+h1,
+h4,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* ===Header=== */
+header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  background-color: rgb(254, 250, 231);
+  padding: 0.7rem 2rem 0.3rem 2rem;
+  place-items: center;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  display: flex;
+  gap: 2rem;
+  place-items: center;
+}
+
+.icon img {
+  width: 5rem;
+}
+
+.header-menu ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.header-menu li {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* ===Main=== */
+.section {
+  width: 90vw;
+  margin: 0 auto;
+  max-width: 1170px;
+}
+
+.section h1 {
+  font-size: 3rem;
+  font-weight: 400;
+  margin-top: 5rem;
+}
+
+.title {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  row-gap: 3rem;
+  margin-top: 3rem;
+}
+
+.container img {
+  height: 20rem;
+}
+
+.container article {
+  width: 20rem;
+  text-align: center;
+  border-radius: 0.3rem;
+  padding: 1.5rem 0;
+}
+
+.container .footer {
+  padding: 1rem;
+  text-align: left;
+}
+
+.footer h4 {
+  font-size: 1.5rem;
+}
+
+button.more {
+  width: 90%;
+  font-family: 'Lora' serif;
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: rgb(90, 170, 231);
+  color: white;
+  border-radius: 0.3rem;
+}
+
+article:hover {
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
+}
