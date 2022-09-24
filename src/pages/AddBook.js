@@ -65,7 +65,7 @@ const AddBook = () => {
             </div>
           </div>
           <form className="add-book-form" onSubmit={handleSubmit}>
-            <div className="container">
+            <div className="form-fields-container">
               <div className="book-title">
                 <label htmlFor="book-title">Название: </label>
                 <input
