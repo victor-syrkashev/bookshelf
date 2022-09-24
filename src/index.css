@@ -1,16 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --beige-color: rgb(254, 250, 231);
+  --beige-color: hsl(50, 92%, 96%);
   --green-color: rgb(0, 179, 158);
   --btn-hover: rgb(0, 204, 180);
   --btn-active: rgb(0, 153, 135);
   --orange-color: rgb(255, 152, 17);
-  --blue-color: rgb(90, 170, 231);
+  --blue-color: hsl(206, 75%, 63%);
+  --blue-color-hover: hsl(206, 75%, 68%);
+  --blue-color-active: hsl(206, 75%, 58%);
   --brown-color: rgb(196, 154, 108);
   --text-color: rgb(34, 34, 34);
-  --text-light-color: hsl(0, 0%, 43%);
-  --placeholder-color: hsl(0, 0%, 73%);
+  --text-light-color: rgb(110, 110, 110);
+  --placeholder-color: rgb(186, 186, 186);
+  --red-btn-color: hsl(2, 60%, 50%);
+  --red-btn-color-hover: hsl(2, 60%, 55%);
+  --red-btn-color-active: hsl(2, 60%, 45%);
+
+  --border-color-form: rgb(186, 186, 186);
 
   --transition-link: all 0.2s linear;
 }
@@ -23,10 +30,18 @@ body {
   color: var(--text-color);
 }
 
+.body-page {
+  display: grid;
+  min-height: 100vh;
+}
+
 h1,
+h2,
 h4,
-p {
+p,
+ul {
   margin: 0;
+  padding: 0;
 }
 
 a {
@@ -61,7 +76,7 @@ header {
 }
 
 .icon img {
-  width: 5rem;
+  width: 3.5rem;
 }
 
 .header-menu {
@@ -81,10 +96,11 @@ header .link:hover {
   color: var(--orange-color);
 }
 
-/* ===Main=== */
+/* ===Main and BookList=== */
 .section {
   width: 90vw;
   margin: 0 auto;
+  margin-bottom: 5rem;
   max-width: 1170px;
 }
 
@@ -111,6 +127,8 @@ header .link:hover {
 }
 
 .container article {
+  display: flex;
+  flex-direction: column;
   width: 20rem;
   text-align: center;
   border-radius: 0.3rem;
@@ -126,19 +144,85 @@ header .link:hover {
   font-size: 1.5rem;
 }
 
-button.more {
-  width: 90%;
-  font-family: 'Lora' serif;
-  font-size: 1.3rem;
-  padding: 0.5rem 1rem;
+.book-btn-container {
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
+.book-btn-container > button,
+.details-btn {
   border: none;
   background-color: var(--blue-color);
   color: rgb(255, 255, 255);
-  border-radius: 0.3rem;
+  transition: background-color 0.25s linear;
 }
 
-article:hover {
+.book-btn-container > button:hover,
+.details-btn:hover {
+  background-color: var(--blue-color-hover);
+}
+
+.book-btn-container > button:active,
+.details-btn:active {
+  background-color: var(--blue-color-active);
+}
+
+button.more {
+  padding: 0.798rem 1.1rem;
+  border-radius: 0 0.3rem 0.3rem 0;
+}
+
+.details-btn {
+  font-size: 1.3rem;
+  padding: 0.5rem 4rem;
+  border-radius: 0.3rem 0 0 0.3rem;
+  border-right: 1px solid white;
+  cursor: pointer;
+}
+
+.container article:hover {
   box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ===submenu=== */
+.submenu {
+  display: none;
+  position: absolute;
+  top: 2.6rem;
+  right: 0rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s linear;
+}
+
+.submenu > button {
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  border: none;
+  background: rgb(255, 255, 255);
+  text-align: left;
+  font-size: 1rem;
+}
+
+.submenu > button:first-child {
+  border-radius: 0.8rem 0.8rem 0 0;
+}
+
+.submenu > button:last-child {
+  border-radius: 0 0 0.8rem 0.8rem;
+}
+
+.submenu > button:not(.submenu > button:last-child) {
+  border-bottom: 1px solid #d9dbe0;
+}
+
+button.more:hover + .submenu,
+.submenu:hover {
+  display: grid;
 }
 
 /* ===Filter=== */
@@ -157,7 +241,7 @@ article:hover {
   align-self: center;
 }
 
-.btn-container {
+.filter-btn-container {
   display: flex;
   justify-content: space-evenly;
 }
@@ -176,8 +260,8 @@ article:hover {
 
 /* ===Footer=== */
 footer {
-  margin-top: 5rem;
   background: var(--brown-color);
+  align-self: end;
 }
 
 footer .header-menu {
@@ -204,6 +288,6 @@ footer .link:hover {
   text-align: center;
   color: rgb(255, 255, 255);
   font-size: 1.3rem;
-  margin-top: 5rem;
-  padding-bottom: 1rem;
+  margin-top: 3rem;
+  padding-bottom: 0.5rem;
 }

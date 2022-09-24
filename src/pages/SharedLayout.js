@@ -5,11 +5,11 @@ import Footer from '../components/Footer';
 
 const SharedLayout = () => {
   return (
-    <>
+    <section className="body-page">
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </section>
   );
 };
 

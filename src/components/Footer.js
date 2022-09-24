@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="footer">
       <Menu />
       <p className="copyright">
-        &#169; bookshelf
+        &#169; bookshelf &nbsp;
         {new Date().getFullYear()}
       </p>
     </footer>
