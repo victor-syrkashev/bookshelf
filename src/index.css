@@ -1,11 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
+:root {
+  --beige-color: rgb(254, 250, 231);
+  --green-color: rgb(0, 179, 158);
+  --btn-hover: rgb(0, 204, 180);
+  --btn-active: rgb(0, 153, 135);
+  --orange-color: rgb(255, 152, 17);
+  --blue-color: rgb(90, 170, 231);
+  --brown-color: rgb(196, 154, 108);
+  --text-color: rgb(34, 34, 34);
+  --text-light-color: hsl(0, 0%, 43%);
+  --placeholder-color: hsl(0, 0%, 73%);
+
+  --transition-link: all 0.2s linear;
+}
+
 body {
   margin: 0;
-  font-family: 'Lora' serif;
+  font-family: 'Lora', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: rgb(34, 34, 34);
+  color: var(--text-color);
 }
 
 h1,
@@ -23,6 +38,10 @@ li {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+button {
+  font-family: 'Lora', serif;
 }
 
 /* ===Header=== */
@@ -45,15 +64,21 @@ header {
   width: 5rem;
 }
 
-.header-menu ul {
+.header-menu {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
 }
 
-.header-menu li {
+header .link {
   font-size: 1.5rem;
   font-weight: 600;
+  transition: var(--transition-link);
+}
+
+header .active,
+header .link:hover {
+  color: var(--orange-color);
 }
 
 /* ===Main=== */
@@ -78,7 +103,7 @@ header {
   justify-content: space-evenly;
   flex-wrap: wrap;
   row-gap: 3rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 .container img {
@@ -107,11 +132,78 @@ button.more {
   font-size: 1.3rem;
   padding: 0.5rem 1rem;
   border: none;
-  background-color: rgb(90, 170, 231);
-  color: white;
+  background-color: var(--blue-color);
+  color: rgb(255, 255, 255);
   border-radius: 0.3rem;
 }
 
 article:hover {
-  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ===Filter=== */
+.filter-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  background-color: var(--beige-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  margin-top: 2rem;
+}
+
+.filter-container p {
+  font-size: 1.1rem;
+  align-self: center;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.filter-btn {
+  font-size: 1.1rem;
+  background: none;
+  border: none;
+  border-radius: 0.2rem;
+  transition: var(--transition-link);
+}
+
+.filter-btn:hover {
+  color: var(--blue-color);
+}
+
+/* ===Footer=== */
+footer {
+  margin-top: 5rem;
+  background: var(--brown-color);
+}
+
+footer .header-menu {
+  justify-content: center;
+  align-items: center;
+}
+
+footer .link {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 2rem;
+  color: rgb(255, 255, 255);
+  transition: var(--transition-link);
+}
+
+footer .active,
+footer .link:hover {
+  background-color: var(--orange-color);
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.copyright {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 1.3rem;
+  margin-top: 5rem;
+  padding-bottom: 1rem;
 }

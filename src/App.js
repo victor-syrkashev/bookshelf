@@ -1,22 +1,23 @@
-import { useState, useEffect } from 'react';
-import books from './data';
-import Header from './Header';
-import BookList from './BookList';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SharedLayout from './pages/SharedLayout';
+import Home from './pages/Home';
+import AddBook from './pages/AddBook';
+import SingleBook from './pages/SingleBook';
+import Error from './pages/Error';
 
 function App() {
-  const [booksData, setBooksData] = useState(books);
   return (
-    <>
-      <Header />
-      <main>
-        <section className="section">
-          <div className="title">
-            <h1>Книжная полка</h1>
-          </div>
-          <BookList booksData={booksData} />
-        </section>
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Home />} />
+          <Route path="addBook" element={<AddBook />} />
+          <Route path=":bookId" element={<SingleBook />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
