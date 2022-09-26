@@ -5,7 +5,7 @@ const Filter = () => {
     <section className="filter">
       <div className="filter-container">
         <p>Сортировать по:</p>
-        <div className="btn-container">
+        <div className="filter-btn-container">
           <button type="button" className="filter-btn">
             Умолчанию
           </button>
