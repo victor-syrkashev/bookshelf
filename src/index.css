@@ -22,6 +22,10 @@
   --transition-link: all 0.2s linear;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: 'Lora', serif;
@@ -256,6 +260,44 @@ button.more:hover + .submenu,
 
 .filter-btn:hover {
   color: var(--blue-color);
+}
+
+/* ===Pagination === */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0;
+}
+
+.pagination button {
+  padding: 0.2rem 1rem;
+  font-size: 1.1rem;
+  background: none;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  border-right: none;
+}
+
+.pagination .previous-btn,
+.pagination .next-btn {
+  padding: 0.2rem 0.7rem;
+  align-items: center;
+  display: grid;
+  place-content: center;
+}
+
+.pagination button:last-child {
+  border-right: 1px solid var(--text-color);
+}
+
+.pagination .active-btn {
+  color: white;
+  background-color: var(--blue-color);
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  color: var(--text-color);
 }
 
 /* ===Footer=== */
