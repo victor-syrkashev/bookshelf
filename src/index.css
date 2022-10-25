@@ -36,6 +36,7 @@ body {
 
 .body-page {
   display: grid;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
 
@@ -117,6 +118,12 @@ header .link:hover {
 .title {
   text-align: center;
 }
+/* preloader */
+.preloader {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 3rem;
+}
 
 .container {
   display: flex;
@@ -124,6 +131,12 @@ header .link:hover {
   flex-wrap: wrap;
   row-gap: 3rem;
   margin-top: 1rem;
+}
+
+/* no-books */
+.no-books {
+  margin-top: 3rem;
+  font-size: 2rem;
 }
 
 .container img {
@@ -232,7 +245,7 @@ button.more:hover + .submenu,
 /* ===Filter=== */
 .filter-container {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 0.5fr 1fr 1fr;
   gap: 2rem;
   background-color: var(--beige-color);
   padding: 0.5rem 1rem;
@@ -243,11 +256,6 @@ button.more:hover + .submenu,
 .filter-container p {
   font-size: 1.1rem;
   align-self: center;
-}
-
-.filter-btn-container {
-  display: flex;
-  justify-content: space-evenly;
 }
 
 .filter-btn {

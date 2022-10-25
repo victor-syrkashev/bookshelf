@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { createBrowserHistory } from 'history';
+import qs from 'qs';
+import Pagination from '../components/Pagination';
 import BookList from '../components/BookList';
 import Filter from '../components/Filter';
 
@@ -7,120 +9,87 @@ const Home = () => {
   const [booksData, setBooksData] = useState();
   const [activeButtonId, setActiveButtonId] = useState(0);
   const [pageNumbers, setPageNumbers] = useState(0);
+  const [authorsList, setAuthorsList] = useState([]);
+  const [genresList, setGenresList] = useState([]);
+  const [author, setAuthor] = useState('Все авторы');
+  const [genre, setGenre] = useState('Все жанры');
+  const [sort, setSort] = useState('default');
 
-  const addActiveBtn = (index) => {
-    if (index !== activeButtonId) {
-      const paginationBtns = document.querySelectorAll('.pagination-btn');
-      paginationBtns.forEach((button) => {
-        if (button.id === `page-${index}`) {
-          button.classList.add('active-btn');
-        } else {
-          button.classList.remove('active-btn');
-        }
-      });
-    }
-  };
+  const history = createBrowserHistory();
 
-  const prevAndNextBtnsCheck = (index) => {
-    const previousBtn = document.querySelector('.previous-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    if (index === 0) {
-      previousBtn.disabled = true;
-    } else {
-      previousBtn.disabled = false;
+  // Попытка реализовать хранение переменных в URL
+  useEffect(() => {
+    const filterParams = history.location.search.substring(1);
+    const filtersFromParams = qs.parse(filterParams);
+    if (filtersFromParams.page) {
+      console.log(Number(filtersFromParams.page));
     }
-    if (index === pageNumbers - 1) {
-      nextBtn.disabled = true;
-    } else {
-      nextBtn.disabled = false;
-    }
-  };
-
-  const pagination = (index) => {
-    if (index >= 0 && index < pageNumbers) {
-      addActiveBtn(index);
-      prevAndNextBtnsCheck(index);
-      fetch(`http://localhost:8000/?page=${index}`)
-        .then((res) => res.json())
-        .then((result) => {
-          setBooksData(result.booksData);
-          setPageNumbers(result.pageNumbers);
-          setActiveButtonId(result.pageIndex);
-          window.scroll(0, 0);
-        });
-    }
-  };
-
-  const paginationIndex = () => {
-    const indexArray = [];
-    for (let i = 0; i < pageNumbers; i++) {
-      indexArray.push(i);
-    }
-    return indexArray;
-  };
+  }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8000/?page=0')
+    fetch(
+      `http://localhost:8000/?page=${activeButtonId}&author=${author}&genre=${genre}&sort=${sort}`
+    )
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
         setPageNumbers(result.pageNumbers);
         setActiveButtonId(result.pageIndex);
+        result.authorsList.unshift('Все авторы');
+        setAuthorsList(result.authorsList);
+        result.genresList.unshift('Все жанры');
+        setGenresList(result.genresList);
       });
   }, []);
 
-  if (!booksData) return <div>Loading...</div>;
+  useEffect(() => {
+    history.push(
+      `?page=${activeButtonId}&author=${author}&genre=${genre}&sort=${sort}`
+    );
+  }, [activeButtonId, author, genre, sort]);
 
+  if (!booksData) {
+    return (
+      <main>
+        <section className="section">
+          <div className="title">
+            <h1>Книжная полка</h1>
+          </div>
+          <div className="preloader">Loading...</div>
+        </section>
+      </main>
+    );
+  }
   return (
     <main>
       <section className="section">
         <div className="title">
           <h1>Книжная полка</h1>
         </div>
-        <Filter />
+        <Filter
+          setBooksData={setBooksData}
+          setPageNumbers={setPageNumbers}
+          setAuthor={setAuthor}
+          setGenre={setGenre}
+          setSort={setSort}
+          activeButtonId={activeButtonId}
+          authors={authorsList}
+          genres={genresList}
+          author={author}
+          genre={genre}
+          sort={sort}
+        />
         <BookList booksData={booksData} />
-        <div className="pagination">
-          <button
-            type="button"
-            className="previous-btn"
-            onClick={() => pagination(activeButtonId - 1)}
-          >
-            <FaAngleLeft />
-          </button>
-          {paginationIndex().map((index) => {
-            if (index === 0) {
-              return (
-                <button
-                  type="button"
-                  id={`page-${index}`}
-                  key={index}
-                  className="active-btn pagination-btn"
-                  onClick={() => pagination(index)}
-                >
-                  {index + 1}
-                </button>
-              );
-            }
-            return (
-              <button
-                type="button"
-                id={`page-${index}`}
-                key={index}
-                className="pagination-btn"
-                onClick={() => pagination(index)}
-              >
-                {index + 1}
-              </button>
-            );
-          })}
-          <button
-            type="button"
-            className="next-btn"
-            onClick={() => pagination(activeButtonId + 1)}
-          >
-            <FaAngleRight />
-          </button>
-        </div>
+        <Pagination
+          setBooksData={setBooksData}
+          setPageNumbers={setPageNumbers}
+          setActiveButtonId={setActiveButtonId}
+          activeButtonId={activeButtonId}
+          pageNumbers={pageNumbers}
+          author={author}
+          genre={genre}
+          sort={sort}
+        />
       </section>
     </main>
   );

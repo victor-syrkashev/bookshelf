@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import { FaEllipsisV } from 'react-icons/fa';
 
 const BookList = ({ booksData }) => {
+  if (booksData.length === 0) {
+    return (
+      <div className="container">
+        <p className="no-books">К сожалению, таких книг нет 🦄</p>
+      </div>
+    );
+  }
   return (
     <div className="container">
       {booksData.map((book) => {
