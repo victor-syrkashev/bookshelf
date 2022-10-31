@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const Pagination = ({
@@ -7,9 +7,8 @@ const Pagination = ({
   setActiveButtonId,
   activeButtonId,
   pageNumbers,
-  author,
-  genre,
-  sort,
+  filter,
+  urlWithSearchParams,
 }) => {
   const addActiveBtn = (index) => {
     if (index !== activeButtonId) {
@@ -43,9 +42,8 @@ const Pagination = ({
     if (index >= 0 && index < pageNumbers) {
       addActiveBtn(index);
       prevAndNextBtnsCheck(index);
-      fetch(
-        `http://localhost:8000/?page=${index}&author=${author}&genre=${genre}&sort=${sort}`
-      )
+      const url = urlWithSearchParams(filter, index);
+      fetch(url)
         .then((res) => res.json())
         .then((result) => {
           setBooksData(result.booksData);
@@ -63,6 +61,10 @@ const Pagination = ({
     }
     return indexArray;
   };
+
+  useEffect(() => {
+    prevAndNextBtnsCheck(activeButtonId);
+  }, []);
 
   if (pageNumbers > 1) {
     return (

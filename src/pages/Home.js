@@ -11,15 +11,28 @@ const Home = () => {
   const [pageNumbers, setPageNumbers] = useState(0);
   const [authorsList, setAuthorsList] = useState([]);
   const [genresList, setGenresList] = useState([]);
-  const [author, setAuthor] = useState('Все авторы');
-  const [genre, setGenre] = useState('Все жанры');
-  const [sort, setSort] = useState('default');
+  const [filter, setFilter] = useState({
+    author: '',
+    genre: '',
+    sort: 'add-asc',
+  });
 
   const history = createBrowserHistory();
+  const urlWithSearchParams = (object, pageIndex) => {
+    const url = new URL('http://localhost:8000/');
+    url.searchParams.set('page', pageIndex);
+    for (const key in object) {
+      if (object[key] !== '') {
+        url.searchParams.set(key, object[key]);
+      }
+    }
+    return url;
+  };
 
   // Попытка реализовать хранение переменных в URL
   useEffect(() => {
     const filterParams = history.location.search.substring(1);
+    console.log(filterParams);
     const filtersFromParams = qs.parse(filterParams);
     if (filtersFromParams.page) {
       console.log(Number(filtersFromParams.page));
@@ -27,9 +40,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    fetch(
-      `http://localhost:8000/?page=${activeButtonId}&author=${author}&genre=${genre}&sort=${sort}`
-    )
+    const url = urlWithSearchParams(filter, activeButtonId);
+    fetch(url)
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
@@ -43,10 +55,9 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    history.push(
-      `?page=${activeButtonId}&author=${author}&genre=${genre}&sort=${sort}`
-    );
-  }, [activeButtonId, author, genre, sort]);
+    const url = urlWithSearchParams(filter, activeButtonId);
+    history.push(url.search);
+  }, [activeButtonId, filter]);
 
   if (!booksData) {
     return (
@@ -69,26 +80,22 @@ const Home = () => {
         <Filter
           setBooksData={setBooksData}
           setPageNumbers={setPageNumbers}
-          setAuthor={setAuthor}
-          setGenre={setGenre}
-          setSort={setSort}
+          setFilter={setFilter}
           activeButtonId={activeButtonId}
           authors={authorsList}
           genres={genresList}
-          author={author}
-          genre={genre}
-          sort={sort}
+          filter={filter}
+          urlWithSearchParams={urlWithSearchParams}
         />
-        <BookList booksData={booksData} />
+        <BookList booksData={booksData} setBooksData={setBooksData} />
         <Pagination
           setBooksData={setBooksData}
           setPageNumbers={setPageNumbers}
           setActiveButtonId={setActiveButtonId}
           activeButtonId={activeButtonId}
           pageNumbers={pageNumbers}
-          author={author}
-          genre={genre}
-          sort={sort}
+          filter={filter}
+          urlWithSearchParams={urlWithSearchParams}
         />
       </section>
     </main>
