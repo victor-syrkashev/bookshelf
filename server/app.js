@@ -2,8 +2,8 @@ const express = require('express');
 const fs = require('fs');
 
 const app = express();
-const booksJson = fs.readFileSync('data.json', 'utf8');
-const booksList = JSON.parse(booksJson);
+const booksJson = fs.readFileSync('./db/data.json', 'utf8');
+let booksList = JSON.parse(booksJson);
 const port = 8000;
 const itemsPerPage = 12;
 
@@ -50,13 +50,14 @@ app.get('/', (req, res) => {
   const { sort } = req.query;
   const { author } = req.query;
   const { genre } = req.query;
+  const { bookshelf } = req.query;
   let pageIndex = Number(req.query.page);
   let filteredBooks = [];
   let sortedBooks = [];
-
   filteredBooks = booksList
     .filter((book) => !author || book.author === author)
-    .filter((book) => !genre || book.genres[0] === genre);
+    .filter((book) => !genre || book.genres[0] === genre)
+    .filter((book) => !bookshelf || book.bookshelf === bookshelf);
 
   const collator = new Intl.Collator('ru', {
     sensitivity: 'accent',
@@ -77,65 +78,56 @@ app.get('/', (req, res) => {
     case 'add-asc':
       sortedBooks = reverseArray(filteredBooks);
       break;
-    case 'finished':
-      sortedBooks = filteredBooks.filter(
-        (book) => book.bookshelf === 'finished'
-      );
-      pageIndex = 0;
-      break;
-    case 'new':
-      sortedBooks = filteredBooks.filter((book) => book.bookshelf === 'new');
-      pageIndex = 0;
-      break;
     default:
       sortedBooks = filteredBooks;
   }
   if (!pageIndex) {
-    pageIndex = 0;
+    pageIndex = 1;
   }
 
   const authorsList = getListByParam(booksList, 'author');
   const genresList = getListByParam(booksList, 'genres', 0);
-  let pageNumbers = 0;
+  let numberOfPages = 0;
   let booksData = [];
   if (sortedBooks.length <= itemsPerPage) {
     booksData = sortedBooks;
-    pageIndex = 0;
-    pageNumbers = 0;
+    pageIndex = 1;
+    numberOfPages = 0;
   } else {
     booksData = sortedBooks.slice(
-      pageIndex * itemsPerPage,
-      (pageIndex + 1) * itemsPerPage
+      (pageIndex - 1) * itemsPerPage,
+      pageIndex * itemsPerPage
     );
-    pageNumbers = Math.ceil(booksList.length / itemsPerPage);
+    numberOfPages = Math.ceil(booksList.length / itemsPerPage);
   }
   res.json({
     pageIndex,
     booksData,
-    pageNumbers,
+    numberOfPages,
     authorsList,
     genresList,
   });
 });
 
-app.get('/add-book', (req, res) => {
+app.get('/books', (req, res) => {
   const allGenresList = getListByParam(booksList, 'genres');
   res.json(allGenresList);
 });
 
-app.post('/add-book', (req, res) => {
+app.post('/books', (req, res) => {
   const newBook = req.body;
   booksList.push(newBook);
-  fs.writeFileSync('data.json', JSON.stringify(booksList));
+  fs.writeFileSync('./db/data.json', JSON.stringify(booksList));
   res.json({
     answer: 'Книга была успешно добавлена на полку',
   });
 });
 
-app.delete('/delete-book/:id', (req, res) => {
+app.delete('/books/:id', (req, res) => {
   const idToDelete = req.params.id;
   const newBooksList = booksList.filter((book) => book.id !== idToDelete);
-  fs.writeFileSync('data.json', JSON.stringify(newBooksList));
+  fs.writeFileSync('./db/data.json', JSON.stringify(newBooksList));
+  booksList = newBooksList;
   res.end();
 });
 

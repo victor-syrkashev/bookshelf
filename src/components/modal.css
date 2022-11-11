@@ -1,0 +1,102 @@
+.modal-overlay {
+  display: none;
+}
+
+.modal-overlay.show-modal {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(245, 245, 245, 0.8);
+  display: grid;
+  place-items: center;
+}
+
+.modal-container {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  padding: 4rem 2.5rem 3rem 2.5rem;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-areas:
+    'title title'
+    'sub     dec';
+  column-gap: 2rem;
+  row-gap: 3rem;
+  place-items: center;
+}
+
+.modal-container p {
+  font-size: 1.5rem;
+  font-weight: 500;
+  grid-area: title;
+}
+
+.modal-container button {
+  border: none;
+}
+
+button.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: white;
+  font-size: 1.2rem;
+  color: rgb(200, 200, 200);
+  transition: all 0.3s linear;
+  padding: 0;
+}
+
+button.close-modal:hover {
+  color: rgb(170, 170, 170);
+}
+
+button.close-modal:active {
+  color: rgb(150, 150, 150);
+}
+
+button.submit {
+  background-color: var(--red-btn-color);
+  font-size: 1.3rem;
+  padding: 0.3rem 1rem;
+  border-radius: 0.2rem;
+  color: rgb(255, 255, 255);
+  border: 1px solid var(--red-btn-color);
+  grid-area: sub;
+  justify-self: end;
+  transition: all 0.3s linear;
+}
+
+button.submit:hover {
+  background-color: var(--red-btn-color-hover);
+}
+
+button.submit:active {
+  background-color: var(--red-btn-color-active);
+}
+
+button.decline {
+  background-color: rgb(255, 255, 255);
+  font-size: 1.3rem;
+  padding: 0.3rem 1rem;
+  border-radius: 0.2rem;
+  color: rgb(150, 150, 150);
+  border: 1px solid rgb(150, 150, 150);
+  grid-area: dec;
+  justify-self: start;
+  transition: all 0.3s linear;
+}
+
+button.decline:hover {
+  background-color: rgb(245, 245, 245);
+  color: rgb(130, 130, 130);
+  border: 1px solid rgb(130, 130, 130);
+}
+
+button.decline:active {
+  background-color: rgb(235, 235, 235);
+  color: rgb(120, 120, 120);
+  border: 1px solid rgb(120, 120, 120);
+}
