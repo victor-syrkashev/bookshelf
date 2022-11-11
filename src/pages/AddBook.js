@@ -1,20 +1,82 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import CreatableSelect from 'react-select/creatable';
 import '../addBook.css';
 
 const AddBook = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [publisher, setPublisher] = useState('');
+  const [author, setAuthor] = useState('');
+  const [genres, setGenres] = useState([]);
+  const [yearOfPublishing, setYearOfPublishing] = useState('');
+  const [pages, setPages] = useState('');
+  const [ageRestriction, setAgeRestriction] = useState('');
+  const [description, setDescription] = useState('');
+  const [bookshelf, setBookshelf] = useState('new');
+  const [genresList, setGenresList] = useState([]);
+  const [id, setId] = useState('');
+  const [alert, setAlert] = useState({ show: false, msg: '', type: '' });
+  const formData = {
+    title,
+    image,
+    publisher,
+    author,
+    yearOfPublishing,
+    pages,
+    ageRestriction,
+    description,
+    genres,
+    id,
+    bookshelf,
+  };
+  const refContainer = useRef(null);
+
+  function createOptions(list) {
+    return list.map((item) => {
+      return { value: `${item}`, label: `${item}` };
+    });
+  }
+
+  const optionsGenres = createOptions(genresList);
+
+  function resetState() {
+    setTitle('');
+    setImage('');
+    setPublisher('');
+    setAuthor('');
+    setYearOfPublishing('');
+    setPages('');
+    setAgeRestriction('');
+    setDescription('');
+  }
+
+  const removeAlert = (show = false, type = '', msg = '') => {
+    setAlert({ show, type, msg });
   };
 
-  useEffect(() => {
-    const textArea = document.querySelector('textarea');
-    function changeHight(element) {
-      textArea.style.height = '10rem';
-      const scHeight = element.target.scrollHeight;
-      textArea.style.height = `${scHeight}px`;
-    }
-    textArea.addEventListener('keyup', changeHight);
-  }, []);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    refContainer.current.clearValue();
+    fetch('http://localhost:8000/add-book', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setAlert({ show: true, msg: result.answer, type: 'success' });
+        setId(new Date().getTime().toString());
+        resetState();
+        window.scroll(0, 0);
+        const alertContainer = document.querySelector('.alert-container');
+        alertContainer.classList.add('show');
+        setTimeout(() => {
+          removeAlert();
+          alertContainer.classList.remove('show');
+        }, 6000);
+      });
+  };
 
   const newBookshelf = () => {
     const formContainer = document.querySelector('.form-container');
@@ -25,6 +87,22 @@ const AddBook = () => {
     const formContainer = document.querySelector('.form-container');
     formContainer.classList.add('finished');
   };
+
+  useEffect(() => {
+    setId(new Date().getTime().toString());
+    const textArea = document.querySelector('textarea');
+    function changeHight(element) {
+      textArea.style.height = '10rem';
+      const scHeight = element.target.scrollHeight;
+      textArea.style.height = `${scHeight}px`;
+    }
+    textArea.addEventListener('keyup', changeHight);
+    fetch('http://localhost:8000/add-book')
+      .then((res) => res.json())
+      .then((result) => {
+        setGenresList(result);
+      });
+  }, []);
 
   return (
     <main>
@@ -37,6 +115,11 @@ const AddBook = () => {
         </div>
         <div className="form-container">
           <div className="switch">
+            <div className="alert-container">
+              {alert.show && (
+                <p className={`alert alert-${alert.type}`}>{alert.msg}</p>
+              )}
+            </div>
             <p className="switch-title">На какую полку добавить книгу? </p>
             <div className="switch-container">
               <div className="switch-btn">
@@ -47,6 +130,7 @@ const AddBook = () => {
                   className="switch-input"
                   onClick={newBookshelf}
                   defaultChecked="true"
+                  onChange={() => setBookshelf('new')}
                 />
                 <label htmlFor="new" className="switch-label">
                   Новые книги
@@ -57,6 +141,7 @@ const AddBook = () => {
                   id="finished"
                   className="switch-input"
                   onClick={finishedBookshelf}
+                  onChange={() => setBookshelf('finished')}
                 />
                 <label htmlFor="finished" className="switch-label">
                   Прочитанные книги
@@ -74,6 +159,7 @@ const AddBook = () => {
                   name="book-title"
                   placeholder="Руслан и Людмила"
                   required
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
               <div className="author">
@@ -84,6 +170,7 @@ const AddBook = () => {
                   name="author"
                   placeholder="Пушкин А.С."
                   required
+                  onChange={(e) => setAuthor(e.target.value)}
                 />
               </div>
               <div className="image">
@@ -93,34 +180,34 @@ const AddBook = () => {
                   id="image"
                   name="image"
                   placeholder="https://img-gorod.ru/..."
+                  onChange={(e) => setImage(e.target.value)}
                 />
                 <p className="footnote">Приложите ссылку на изображение</p>
               </div>
               <div className="genre">
                 <label htmlFor="genre">Жанр: </label>
                 <div className="genre-container">
-                  <select name="genre" id="genre">
-                    <option value="поэма">Поэма</option>
-                    <option value="ужасы">Ужасы</option>
-                    <option value="мистика">Мистика</option>
-                    <option value="триллер">Триллер</option>
-                    <option value="исторический">Исторический</option>
-                    <option value="роман">Роман</option>
-                    <option value="вестерн">Вестерн</option>
-                    <option value="фэнтези">Фэнтези</option>
-                    <option value="own-version">Свой вариант</option>
-                  </select>
-                  <input type="text" id="genre" className="own-version" />
+                  <CreatableSelect
+                    isMulti
+                    ref={refContainer}
+                    options={optionsGenres}
+                    onChange={(e) => {
+                      setGenres(e.map((item) => item.label));
+                    }}
+                  />
                 </div>
                 <p className="footnote">
-                  {`Выберите жанр книги из предложенных. Если не нашли
-                    подходящий, то выберите "Свой вариант" и напишите его в поле
-                    правее.`}
+                  Выберите жанры книги из предложенных или напишите свои
                 </p>
               </div>
               <div className="publisher">
                 <label htmlFor="title">Издательство: </label>
-                <input type="text" id="publisher" name="publisher" />
+                <input
+                  type="text"
+                  id="publisher"
+                  name="publisher"
+                  onChange={(e) => setPublisher(e.target.value)}
+                />
               </div>
               <div className="pages-year-age-container">
                 <div className="pages">
@@ -132,6 +219,7 @@ const AddBook = () => {
                     min={0}
                     max={3604}
                     step={1}
+                    onChange={(e) => setPages(e.target.value)}
                   />
                 </div>
                 <div className="yearOfWriting">
@@ -143,11 +231,17 @@ const AddBook = () => {
                     min={1000}
                     max={2100}
                     step={1}
+                    onChange={(e) => setYearOfPublishing(e.target.value)}
                   />
                 </div>
                 <div className="ageRestriction">
                   <p>Возрастное ограничение:</p>
-                  <div className="ageRestriction-container">
+                  <div
+                    className="ageRestriction-container"
+                    onChange={(e) => {
+                      setAgeRestriction(e.target.labels[0].innerHTML);
+                    }}
+                  >
                     <input type="radio" name="ageRestriction" id="zero" />
                     <label htmlFor="zero" className="age-label first">
                       0+
@@ -178,6 +272,7 @@ const AddBook = () => {
                   id="description"
                   spellCheck="false"
                   placeholder="Аннотация к книге..."
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <button type="submit" className="submit-btn">

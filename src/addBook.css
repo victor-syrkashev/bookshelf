@@ -84,6 +84,39 @@ fieldset {
   border: none;
 }
 
+/* Alert */
+.alert-container {
+  height: 0;
+  transition: all 0.4s linear;
+}
+
+.alert-container.show {
+  height: 1.5rem;
+}
+
+.alert {
+  padding: 0.5rem 3rem;
+  border-radius: 0.4rem;
+  animation: 5s linear slidein;
+  transition: all 0.4s linear;
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.alert-success {
+  background-color: hsl(81, 53%, 70%);
+}
+
 /* switch */
 .form-container .switch {
   position: relative;
@@ -148,7 +181,6 @@ label[for='finished'] {
 /* select genre */
 div.genre-container {
   display: grid;
-  grid-template-columns: auto 1fr;
 }
 
 select,
