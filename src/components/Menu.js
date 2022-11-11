@@ -11,7 +11,7 @@ const Menu = () => {
         Главная
       </NavLink>
       <NavLink
-        to="/addBook"
+        to="/add-book"
         className={({ isActive }) => (isActive ? 'active link' : 'link')}
       >
         Добавить книгу

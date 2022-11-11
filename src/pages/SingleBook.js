@@ -9,6 +9,7 @@ const SingleBook = () => {
   const location = useLocation();
   const { book } = location.state;
   const {
+    id,
     title,
     image,
     author,
@@ -21,6 +22,14 @@ const SingleBook = () => {
     pages,
     gallery,
   } = book;
+
+  function removeBook(identifier) {
+    fetch(`http://localhost:8000/delete-book/${identifier}`, {
+      method: 'DELETE',
+    });
+    window.history.back();
+  }
+
   return (
     <section className="single-book">
       <div className="header-single-book">
@@ -29,8 +38,8 @@ const SingleBook = () => {
           <h1>{title}</h1>
           <h2>{author}</h2>
           <ul className="list-items">
-            {genres.map((genre) => {
-              return <li>{genre}</li>;
+            {genres.map((genre, index) => {
+              return <li key={index}>{genre}</li>;
             })}
           </ul>
         </div>
@@ -44,10 +53,14 @@ const SingleBook = () => {
           <a href={URL} className="buy-btn">
             Купить
           </a>
-          <button type="button" className="remove-btn">
+          <button
+            type="button"
+            className="remove-btn"
+            onClick={() => removeBook(id)}
+          >
             Удалить
           </button>
-          {gallery.length > 0 && (
+          {gallery && gallery.length > 0 && (
             <div className="gallery-btn">
               <BsBook />
               <p>Примеры страниц</p>

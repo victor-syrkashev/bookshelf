@@ -4,20 +4,20 @@ import Select from 'react-select';
 const Filter = ({
   setBooksData,
   setPageNumbers,
-  setAuthor,
-  setGenre,
-  setSort,
+  setFilter,
   activeButtonId,
   authors,
   genres,
-  author,
-  genre,
-  sort,
+  filter,
+  urlWithSearchParams,
 }) => {
   const optionsSorting = [
-    { value: 'default', label: 'Умолчанию' },
-    { value: 'name', label: 'Алфавиту А-Я' },
-    { value: 'nameReverse', label: 'Алфавиту Я-А' },
+    { value: 'add-asc', label: 'По добавлению (сначала новые)' },
+    { value: 'add-desc', label: 'По добавлению (сначала старые)' },
+    { value: 'name-asc', label: 'Алфавиту А-Я' },
+    { value: 'name-desc', label: 'Алфавиту Я-А' },
+    { value: 'finished', label: 'Прочитанные' },
+    { value: 'new', label: 'Новые' },
   ];
 
   function createOptions(list) {
@@ -28,10 +28,23 @@ const Filter = ({
   const optionsGenres = createOptions(genres);
   const optionsAuthor = createOptions(authors);
 
+  const fetchingData = (selectOption, filterOption) => {
+    const selectedSort = selectOption.value;
+    const newFilter = { ...filter, [filterOption]: selectedSort };
+    setFilter(newFilter);
+    const url = urlWithSearchParams(newFilter, activeButtonId);
+    fetch(url)
+      .then((res) => res.json())
+      .then((result) => {
+        setBooksData(result.booksData);
+        setPageNumbers(result.pageNumbers);
+      });
+  };
+
   return (
     <section className="filter">
       <div className="filter-container">
-        <p>Сортировать по:</p>
+        <p>Сортировать:</p>
 
         <Select
           value={optionsSorting.value}
@@ -39,15 +52,7 @@ const Filter = ({
           defaultValue={optionsSorting[0]}
           isSearchable
           onChange={(option) => {
-            const selectedSort = option.value;
-            setSort(selectedSort);
-            fetch(
-              `http://localhost:8000/?page=${activeButtonId}&author=${author}&genre=${genre}&sort=${selectedSort}`
-            )
-              .then((res) => res.json())
-              .then((result) => {
-                setBooksData(result.booksData);
-              });
+            fetchingData(option, 'sort');
           }}
         />
         <Select
@@ -56,16 +61,7 @@ const Filter = ({
           defaultValue={optionsAuthor[0]}
           isSearchable
           onChange={(option) => {
-            const selectedAuthor = option.value;
-            setAuthor(selectedAuthor);
-            fetch(
-              `http://localhost:8000/?page=${activeButtonId}&author=${selectedAuthor}&genre=${genre}&sort=${sort}`
-            )
-              .then((res) => res.json())
-              .then((result) => {
-                setBooksData(result.booksData);
-                setPageNumbers(result.pageNumbers);
-              });
+            fetchingData(option, 'author');
           }}
         />
         <Select
@@ -74,16 +70,7 @@ const Filter = ({
           defaultValue={optionsGenres[0]}
           isSearchable
           onChange={(option) => {
-            const selectedGenre = option.value;
-            setGenre(selectedGenre);
-            fetch(
-              `http://localhost:8000/?page=${activeButtonId}&author=${author}&genre=${selectedGenre}&sort=${sort}`
-            )
-              .then((res) => res.json())
-              .then((result) => {
-                setBooksData(result.booksData);
-                setPageNumbers(result.pageNumbers);
-              });
+            fetchingData(option, 'genre');
           }}
         />
       </div>

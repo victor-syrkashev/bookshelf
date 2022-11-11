@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="addBook" element={<AddBook />} />
+          <Route path="add-book" element={<AddBook />} />
           <Route path=":bookId" element={<SingleBook />} />
           <Route path="*" element={<Error />} />
         </Route>
