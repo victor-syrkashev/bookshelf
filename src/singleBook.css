@@ -73,7 +73,7 @@
   gap: 3rem;
 }
 /* ===Aside=== */
-aside {
+.single-book-aside {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -123,6 +123,11 @@ aside {
 
 .buy-btn:active {
   background-color: var(--blue-color-active);
+}
+
+.buy-btn.disabled {
+  background-color: #eee;
+  color: #777;
 }
 
 .remove-btn {

@@ -3,9 +3,10 @@ import Select from 'react-select';
 
 const Filter = ({
   setBooksData,
-  setPageNumbers,
+  setNumberOfPages,
   setFilter,
   activeButtonId,
+  setActiveButtonId,
   authors,
   genres,
   filter,
@@ -16,17 +17,24 @@ const Filter = ({
     { value: 'add-desc', label: 'По добавлению (сначала старые)' },
     { value: 'name-asc', label: 'Алфавиту А-Я' },
     { value: 'name-desc', label: 'Алфавиту Я-А' },
-    { value: 'finished', label: 'Прочитанные' },
-    { value: 'new', label: 'Новые' },
   ];
 
-  function createOptions(list) {
+  const optionsBookshelf = [
+    { value: '', label: 'Все книги' },
+    { value: 'new', label: 'Новые' },
+    { value: 'finished', label: 'Прочитанные' },
+  ];
+
+  function createOptions(list, label) {
     return list.map((item) => {
+      if (item === '') {
+        return { value: `${item}`, label: `${label}` };
+      }
       return { value: `${item}`, label: `${item}` };
     });
   }
-  const optionsGenres = createOptions(genres);
-  const optionsAuthor = createOptions(authors);
+  const optionsGenres = createOptions(genres, 'Все жанры');
+  const optionsAuthor = createOptions(authors, 'Все авторы');
 
   const fetchingData = (selectOption, filterOption) => {
     const selectedSort = selectOption.value;
@@ -37,37 +45,60 @@ const Filter = ({
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
-        setPageNumbers(result.pageNumbers);
+        setNumberOfPages(result.numberOfPages);
+        setActiveButtonId(result.pageIndex);
       });
   };
 
   return (
     <section className="filter">
-      <div className="filter-container">
+      <div className="sort-container">
         <p>Сортировать:</p>
-
         <Select
-          value={optionsSorting.value}
           options={optionsSorting}
-          defaultValue={optionsSorting[0]}
+          defaultValue={() => {
+            return optionsSorting.filter(
+              (option) => option.value === filter.sort
+            );
+          }}
           isSearchable
           onChange={(option) => {
             fetchingData(option, 'sort');
           }}
         />
+      </div>
+      <div className="filter-container">
+        <p>Фильтры:</p>
         <Select
-          value={optionsSorting.value}
+          options={optionsBookshelf}
+          defaultValue={() => {
+            return optionsBookshelf.filter(
+              (option) => option.value === filter.bookshelf
+            );
+          }}
+          onChange={(option) => {
+            fetchingData(option, 'bookshelf');
+          }}
+        />
+        <Select
           options={optionsAuthor}
-          defaultValue={optionsAuthor[0]}
+          defaultValue={() => {
+            return optionsAuthor.filter(
+              (option) => option.value === filter.author
+            );
+          }}
           isSearchable
           onChange={(option) => {
             fetchingData(option, 'author');
           }}
         />
         <Select
-          value={optionsSorting.value}
           options={optionsGenres}
-          defaultValue={optionsGenres[0]}
+          defaultValue={() => {
+            return optionsGenres.filter(
+              (option) => option.value === filter.genre
+            );
+          }}
           isSearchable
           onChange={(option) => {
             fetchingData(option, 'genre');

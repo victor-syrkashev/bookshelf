@@ -4,8 +4,12 @@ import React from 'react';
 import '../singleBook.css';
 import { useLocation } from 'react-router-dom';
 import { BsBook } from 'react-icons/bs';
+import noImage from '../no-image.svg';
+import Modal from '../components/Modal';
+import { useGlobalContext } from '../components/context';
 
 const SingleBook = () => {
+  const { openModal } = useGlobalContext();
   const location = useLocation();
   const { book } = location.state;
   const {
@@ -23,17 +27,21 @@ const SingleBook = () => {
     gallery,
   } = book;
 
-  function removeBook(identifier) {
-    fetch(`http://localhost:8000/delete-book/${identifier}`, {
+  const removeBook = async (identifier) => {
+    await fetch(`http://localhost:8000/books/${identifier}`, {
       method: 'DELETE',
     });
     window.history.back();
-  }
+  };
 
   return (
     <section className="single-book">
       <div className="header-single-book">
-        <img src={image} alt={title} className="hero-image" />
+        <img
+          src={image !== '' ? image : noImage}
+          alt={title}
+          className="hero-image"
+        />
         <div className="text-container">
           <h1>{title}</h1>
           <h2>{author}</h2>
@@ -45,18 +53,22 @@ const SingleBook = () => {
         </div>
       </div>
       <main className="main-single-book">
-        <aside>
+        <aside className="single-book-aside">
           <div className="aside-image-container">
-            <img src={image} alt={title} className="book-image" />
+            <img
+              src={image !== '' ? image : noImage}
+              alt={title}
+              className="book-image"
+            />
             <div className="ageRestriction-icon">{ageRestriction}</div>
           </div>
-          <a href={URL} className="buy-btn">
+          <a href={URL} className={URL ? 'buy-btn' : 'buy-btn disabled'}>
             Купить
           </a>
           <button
             type="button"
             className="remove-btn"
-            onClick={() => removeBook(id)}
+            onClick={() => openModal(id)}
           >
             Удалить
           </button>
@@ -83,6 +95,7 @@ const SingleBook = () => {
           </div>
         </article>
       </main>
+      <Modal removeBook={removeBook} />
     </section>
   );
 };

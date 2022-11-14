@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { createBrowserHistory } from 'history';
-import qs from 'qs';
 import Pagination from '../components/Pagination';
 import BookList from '../components/BookList';
 import Filter from '../components/Filter';
 
 const Home = () => {
+  const currentUrl = new URL(window.location);
   const [booksData, setBooksData] = useState();
-  const [activeButtonId, setActiveButtonId] = useState(0);
-  const [pageNumbers, setPageNumbers] = useState(0);
+  const [activeButtonId, setActiveButtonId] = useState(
+    currentUrl.searchParams.get('page') || '1'
+  );
+  const [numberOfPages, setNumberOfPages] = useState(0);
   const [authorsList, setAuthorsList] = useState([]);
   const [genresList, setGenresList] = useState([]);
   const [filter, setFilter] = useState({
-    author: '',
-    genre: '',
-    sort: 'add-asc',
+    author: currentUrl.searchParams.get('author') || '',
+    genre: currentUrl.searchParams.get('genre') || '',
+    sort: currentUrl.searchParams.get('sort') || 'add-asc',
+    bookshelf: currentUrl.searchParams.get('bookshelf') || '',
   });
 
   const history = createBrowserHistory();
-  const urlWithSearchParams = (object, pageIndex) => {
-    const url = new URL('http://localhost:8000/');
+  const urlWithSearchParams = (object, pageIndex, port = '8000') => {
+    const url = new URL(`http://localhost:${port}/`);
     url.searchParams.set('page', pageIndex);
     for (const key in object) {
       if (object[key] !== '') {
@@ -29,33 +32,23 @@ const Home = () => {
     return url;
   };
 
-  // Попытка реализовать хранение переменных в URL
-  useEffect(() => {
-    const filterParams = history.location.search.substring(1);
-    console.log(filterParams);
-    const filtersFromParams = qs.parse(filterParams);
-    if (filtersFromParams.page) {
-      console.log(Number(filtersFromParams.page));
-    }
-  }, []);
-
   useEffect(() => {
     const url = urlWithSearchParams(filter, activeButtonId);
     fetch(url)
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
-        setPageNumbers(result.pageNumbers);
+        setNumberOfPages(result.numberOfPages);
         setActiveButtonId(result.pageIndex);
-        result.authorsList.unshift('Все авторы');
+        result.authorsList.unshift('');
         setAuthorsList(result.authorsList);
-        result.genresList.unshift('Все жанры');
+        result.genresList.unshift('');
         setGenresList(result.genresList);
       });
   }, []);
 
   useEffect(() => {
-    const url = urlWithSearchParams(filter, activeButtonId);
+    const url = urlWithSearchParams(filter, activeButtonId, '3000');
     history.push(url.search);
   }, [activeButtonId, filter]);
 
@@ -79,24 +72,37 @@ const Home = () => {
         </div>
         <Filter
           setBooksData={setBooksData}
-          setPageNumbers={setPageNumbers}
+          setNumberOfPages={setNumberOfPages}
           setFilter={setFilter}
           activeButtonId={activeButtonId}
+          setActiveButtonId={setActiveButtonId}
           authors={authorsList}
           genres={genresList}
           filter={filter}
           urlWithSearchParams={urlWithSearchParams}
         />
-        <BookList booksData={booksData} setBooksData={setBooksData} />
-        <Pagination
+        <BookList
+          booksData={booksData}
           setBooksData={setBooksData}
-          setPageNumbers={setPageNumbers}
-          setActiveButtonId={setActiveButtonId}
-          activeButtonId={activeButtonId}
-          pageNumbers={pageNumbers}
-          filter={filter}
           urlWithSearchParams={urlWithSearchParams}
+          filter={filter}
+          activeButtonId={activeButtonId}
+          setActiveButtonId={setActiveButtonId}
+          setAuthorsList={setAuthorsList}
+          setGenresList={setGenresList}
+          setNumberOfPages={setNumberOfPages}
         />
+        {numberOfPages > 0 && (
+          <Pagination
+            setBooksData={setBooksData}
+            setNumberOfPages={setNumberOfPages}
+            setActiveButtonId={setActiveButtonId}
+            activeButtonId={activeButtonId}
+            numberOfPages={numberOfPages}
+            filter={filter}
+            urlWithSearchParams={urlWithSearchParams}
+          />
+        )}
       </section>
     </main>
   );

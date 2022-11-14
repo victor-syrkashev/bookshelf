@@ -58,7 +58,7 @@ const AddBook = () => {
     e.preventDefault();
     e.target.reset();
     refContainer.current.clearValue();
-    fetch('http://localhost:8000/add-book', {
+    fetch('http://localhost:8000/books', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -97,7 +97,7 @@ const AddBook = () => {
       textArea.style.height = `${scHeight}px`;
     }
     textArea.addEventListener('keyup', changeHight);
-    fetch('http://localhost:8000/add-book')
+    fetch('http://localhost:8000/books')
       .then((res) => res.json())
       .then((result) => {
         setGenresList(result);
