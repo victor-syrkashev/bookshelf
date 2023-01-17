@@ -14,7 +14,7 @@ const BookList = ({
   setAuthorsList,
   setGenresList,
 }) => {
-  const { openModal } = useGlobalContext();
+  const { openRemoveModal } = useGlobalContext();
   if (booksData.length === 0) {
     return (
       <div className="container">
@@ -52,20 +52,42 @@ const BookList = ({
               <p className="author">{bookAuthor}</p>
             </div>
             <div className="book-btn-container">
-              <Link className="details-btn" to={`/${id}`} state={{ book }}>
+              <Link
+                className="details-btn"
+                to={`/${id}`}
+                state={{ id }}
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                  });
+                }}
+              >
                 Подробнее
               </Link>
               <button type="button" className="more">
                 <FaEllipsisV />
               </button>
               <div className="submenu">
-                <button type="button">Редактировать</button>
+                <Link
+                  className="edit-book-btn"
+                  to="add-book"
+                  state={{ book }}
+                  onClick={() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: 'smooth',
+                    });
+                  }}
+                >
+                  Редактировать
+                </Link>
                 <button
                   type="button"
                   id={id}
-                  className="remove-book"
+                  className="remove-book-btn"
                   onClick={(e) => {
-                    openModal(e.target.id);
+                    openRemoveModal(e.target.id);
                   }}
                 >
                   Удалить
@@ -75,7 +97,7 @@ const BookList = ({
           </article>
         );
       })}
-      <Modal removeBook={removeBook} />
+      <Modal method={removeBook} />
     </div>
   );
 };

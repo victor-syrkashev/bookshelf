@@ -47,7 +47,8 @@ input::placeholder {
   color: var(--placeholder-color);
 }
 
-.form-fields-container input:not(input[type='radio'], input.own-version) {
+.form-fields-container
+  input:not(input[type='radio'], input.own-version, .reset-btn) {
   border: none;
   border-radius: 0.3rem;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
@@ -78,6 +79,24 @@ input::placeholder {
 
 .submit-btn:active {
   background-color: hsl(81, 53%, 65%);
+}
+
+.reset-btn {
+  border: none;
+  background: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+  transition: all 0.2s linear;
+}
+
+.reset-btn:hover {
+  color: var(--red-btn-color);
+}
+
+.reset-btn:active {
+  color: var(--red-btn-color-active);
 }
 
 fieldset {
@@ -212,7 +231,7 @@ div.pages-year-age-container {
 }
 
 .pages,
-.yearOfWriting {
+.yearOfPublishing {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;

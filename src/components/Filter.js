@@ -52,21 +52,6 @@ const Filter = ({
 
   return (
     <section className="filter">
-      <div className="sort-container">
-        <p>Сортировать:</p>
-        <Select
-          options={optionsSorting}
-          defaultValue={() => {
-            return optionsSorting.filter(
-              (option) => option.value === filter.sort
-            );
-          }}
-          isSearchable
-          onChange={(option) => {
-            fetchingData(option, 'sort');
-          }}
-        />
-      </div>
       <div className="filter-container">
         <p>Фильтры:</p>
         <Select
@@ -76,6 +61,7 @@ const Filter = ({
               (option) => option.value === filter.bookshelf
             );
           }}
+          isSearchable={false}
           onChange={(option) => {
             fetchingData(option, 'bookshelf');
           }}
@@ -102,6 +88,44 @@ const Filter = ({
           isSearchable
           onChange={(option) => {
             fetchingData(option, 'genre');
+          }}
+        />
+      </div>
+      <div className="sort-container">
+        <Select
+          className="select-sort"
+          options={optionsSorting}
+          styles={{
+            control: (baseStyle) => ({
+              ...baseStyle,
+              border: 'none',
+              color: 'hsl(214, 100%, 63%)',
+            }),
+            singleValue: (baseStyle) => ({
+              ...baseStyle,
+              color: 'hsl(214, 100%, 63%)',
+            }),
+            dropdownIndicator: (baseStyle, state) => ({
+              ...baseStyle,
+              ':hover': { color: 'hsl(214, 100%, 55%)' },
+              color: state.isFocused
+                ? 'hsl(214, 100%, 55%)'
+                : 'hsl(214, 100%, 70%)',
+            }),
+            indicatorSeparator: (baseStyle) => ({
+              ...baseStyle,
+              backgroundColor: 'hsl(214, 100%, 70%)',
+              width: '1px',
+            }),
+          }}
+          defaultValue={() => {
+            return optionsSorting.filter(
+              (option) => option.value === filter.sort
+            );
+          }}
+          isSearchable={false}
+          onChange={(option) => {
+            fetchingData(option, 'sort');
           }}
         />
       </div>

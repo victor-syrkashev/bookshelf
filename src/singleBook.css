@@ -104,7 +104,8 @@
 }
 
 .buy-btn,
-.remove-btn {
+.remove-btn,
+.edit-single-book-btn {
   padding: 0.4rem 0 0.6rem 0;
   text-align: center;
   font-size: 1.2rem;
@@ -143,10 +144,25 @@
   background-color: var(--red-btn-color-active);
 }
 
+.edit-single-book-btn {
+  color: hsl(0, 0%, 25%);
+  transition: all 0.3s linear;
+}
+
+.edit-single-book-btn:hover {
+  background-color: hsl(0, 0%, 95%);
+}
+
+.edit-single-book-btn:active {
+  background-color: hsl(0, 0%, 90%);
+}
+
 .gallery-btn {
+  background: none;
+  border: none;
   text-align: center;
   margin-top: 1rem;
-  cursor: default;
+  cursor: pointer;
   transition: color 0.2s linear;
   font-size: 1.7rem;
   color: var(--text-color);

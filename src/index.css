@@ -216,7 +216,12 @@ button.more {
   transition: all 0.25s linear;
 }
 
-.submenu > button {
+button.more:hover + .submenu,
+.submenu:hover {
+  display: grid;
+}
+.edit-book-btn,
+.remove-book-btn {
   padding: 0.5rem 0.7rem;
   cursor: pointer;
   border: none;
@@ -226,29 +231,29 @@ button.more {
   transition: all 0.3s linear;
 }
 
-.submenu > button:first-child {
+.edit-book-btn {
   border-radius: 0.8rem 0.8rem 0 0;
-}
-
-.submenu > button:last-child {
-  border-radius: 0 0 0.8rem 0.8rem;
-}
-
-.submenu > button:not(.submenu > button:last-child) {
   border-bottom: 1px solid #d9dbe0;
 }
 
-button.more:hover + .submenu,
-.submenu:hover {
-  display: grid;
+.edit-book-btn:hover {
+  background-color: hsl(0, 0%, 95%);
 }
 
-.submenu .remove-book:hover {
+.edit-book-btn:active {
+  background-color: hsl(0, 0%, 90%);
+}
+
+.remove-book-btn {
+  border-radius: 0 0 0.8rem 0.8rem;
+}
+
+.remove-book-btn:hover {
   background-color: var(--red-btn-color-hover);
   color: rgb(255, 255, 255);
 }
 
-.submenu .remove-book:active {
+.remove-book-btn:active {
   background-color: var(--red-btn-color-active);
   color: rgb(255, 255, 255);
 }
@@ -257,16 +262,13 @@ button.more:hover + .submenu,
 
 .filter {
   border-radius: 0.4rem;
-
-  background-color: var(--beige-color);
   margin-top: 2rem;
 }
 
 .sort-container {
-  display: grid;
-  grid-template-columns: auto 0.5fr 1fr;
-  column-gap: 1.5rem;
-  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
 }
 
 .filter p {
@@ -275,6 +277,7 @@ button.more:hover + .submenu,
 }
 
 .filter-container {
+  background-color: var(--beige-color);
   display: grid;
   grid-template-columns: auto 0.5fr 1fr 1fr;
   justify-content: stretch;

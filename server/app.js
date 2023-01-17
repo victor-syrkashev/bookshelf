@@ -11,8 +11,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
-  res.setHeader('Access-Control-Allow-Methods', 'DELETE');
+  res.setHeader('Access-Control-Allow-Methods', '*');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-Requested-With, content-type'
@@ -121,6 +120,25 @@ app.post('/books', (req, res) => {
   res.json({
     answer: 'Книга была успешно добавлена на полку',
   });
+});
+
+app.put('/editbook', (req, res) => {
+  const editBook = req.body;
+  booksList.forEach((el, index) => {
+    if (el.id === editBook.id) {
+      booksList[index] = editBook;
+    }
+  });
+  fs.writeFileSync('./db/data.json', JSON.stringify(booksList));
+  res.json({
+    answer: 'Изменения успешно сохранены',
+  });
+});
+
+app.get('/books/:id', (req, res) => {
+  const { id } = req.params;
+  const bookData = booksList.filter((book) => book.id === id);
+  res.json(bookData);
 });
 
 app.delete('/books/:id', (req, res) => {

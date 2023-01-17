@@ -1,31 +1,18 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react/jsx-closing-tag-location */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../singleBook.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { BsBook } from 'react-icons/bs';
 import noImage from '../no-image.svg';
 import Modal from '../components/Modal';
+import Gallery from '../components/Gallery';
 import { useGlobalContext } from '../components/context';
 
 const SingleBook = () => {
-  const { openModal } = useGlobalContext();
+  const [book, setBook] = useState({});
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const { openRemoveModal } = useGlobalContext();
   const location = useLocation();
-  const { book } = location.state;
-  const {
-    id,
-    title,
-    image,
-    author,
-    URL,
-    description,
-    genres,
-    ageRestriction,
-    publisher,
-    yearOfPublishing,
-    pages,
-    gallery,
-  } = book;
+  const { id } = location.state;
 
   const removeBook = async (identifier) => {
     await fetch(`http://localhost:8000/books/${identifier}`, {
@@ -34,19 +21,43 @@ const SingleBook = () => {
     window.history.back();
   };
 
+  const closeGallery = () => {
+    setIsGalleryOpen(false);
+  };
+
+  useEffect(() => {
+    const url = `http://localhost:8000/books/${id}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((result) => {
+        setBook({ ...result[0] });
+      });
+  }, []);
+
+  if (!Object.keys(book).length) {
+    return (
+      <section className="single-book">
+        <div className="header-single-book">
+          <div className="text-container">
+            <h1>...Loading</h1>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="single-book">
       <div className="header-single-book">
         <img
-          src={image !== '' ? image : noImage}
-          alt={title}
+          src={book.image !== '' ? book.image : noImage}
+          alt={book.title}
           className="hero-image"
         />
         <div className="text-container">
-          <h1>{title}</h1>
-          <h2>{author}</h2>
+          <h1>{book.title}</h1>
+          <h2>{book.author}</h2>
           <ul className="list-items">
-            {genres.map((genre, index) => {
+            {book.genres.map((genre, index) => {
               return <li key={index}>{genre}</li>;
             })}
           </ul>
@@ -56,31 +67,54 @@ const SingleBook = () => {
         <aside className="single-book-aside">
           <div className="aside-image-container">
             <img
-              src={image !== '' ? image : noImage}
-              alt={title}
+              src={book.image !== '' ? book.image : noImage}
+              alt={book.title}
               className="book-image"
             />
-            <div className="ageRestriction-icon">{ageRestriction}</div>
+            <div className="ageRestriction-icon">{book.ageRestriction}</div>
           </div>
-          <a href={URL} className={URL ? 'buy-btn' : 'buy-btn disabled'}>
+          <a
+            href={book.URL}
+            className={book.URL ? 'buy-btn' : 'buy-btn disabled'}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             Купить
           </a>
           <button
             type="button"
             className="remove-btn"
-            onClick={() => openModal(id)}
+            onClick={() => openRemoveModal(id)}
           >
             Удалить
           </button>
-          {gallery && gallery.length > 0 && (
-            <div className="gallery-btn">
+          <Link
+            className="edit-single-book-btn"
+            to="../add-book"
+            state={{ book }}
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              });
+            }}
+          >
+            Редактировать
+          </Link>
+          {book.gallery && book.gallery.length > 0 && (
+            <button
+              className="gallery-btn"
+              onClick={() => {
+                setIsGalleryOpen(true);
+              }}
+            >
               <BsBook />
               <p>Примеры страниц</p>
-            </div>
+            </button>
           )}
         </aside>
         <article className="book-description">
-          <div className="description">{description}</div>
+          <div className="description">{book.description}</div>
           <div className="publisher-info">
             <ul className="key">
               <li>Издательство:</li>
@@ -88,14 +122,21 @@ const SingleBook = () => {
               <li>Количество страниц:</li>
             </ul>
             <ul className="value">
-              <li>{publisher}</li>
-              <li>{yearOfPublishing}</li>
-              <li>{pages}</li>
+              <li>{book.publisher}</li>
+              <li>{book.yearOfPublishing}</li>
+              <li>{book.pages}</li>
             </ul>
           </div>
         </article>
       </main>
-      <Modal removeBook={removeBook} />
+      <Modal method={removeBook} />
+      {book.gallery && (
+        <Gallery
+          gallery={book.gallery}
+          isGalleryOpen={isGalleryOpen}
+          closeGallery={closeGallery}
+        />
+      )}
     </section>
   );
 };
