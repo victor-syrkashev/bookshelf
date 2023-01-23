@@ -37,6 +37,10 @@
   right: 0;
 }
 
+.header-single-book.no-book::after {
+  background: linear-gradient(45deg, var(--orange-color), 70%, purple);
+}
+
 .text-container {
   margin-left: 15rem;
 }

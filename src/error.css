@@ -1,0 +1,21 @@
+.error-container {
+  display: grid;
+  place-items: center;
+  align-content: start;
+}
+
+.text-block {
+  margin-top: 5rem;
+}
+
+.error-header {
+  font-size: 7rem;
+  text-align: center;
+  background: linear-gradient(45deg, var(--orange-color), 70%, purple);
+  background-clip: text;
+  color: transparent;
+}
+
+.error-text {
+  font-size: 1.4rem;
+}

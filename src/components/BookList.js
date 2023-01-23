@@ -55,7 +55,6 @@ const BookList = ({
               <Link
                 className="details-btn"
                 to={`/${id}`}
-                state={{ id }}
                 onClick={() => {
                   window.scrollTo({
                     top: 0,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../singleBook.css';
-import { useLocation, Link } from 'react-router-dom';
-import { BsBook } from 'react-icons/bs';
+import { Link, useParams } from 'react-router-dom';
 import noImage from '../no-image.svg';
 import Modal from '../components/Modal';
 import Gallery from '../components/Gallery';
@@ -11,8 +10,8 @@ const SingleBook = () => {
   const [book, setBook] = useState({});
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { openRemoveModal } = useGlobalContext();
-  const location = useLocation();
-  const { id } = location.state;
+  const param = useParams();
+  const id = param.bookId;
 
   const removeBook = async (identifier) => {
     await fetch(`http://localhost:8000/books/${identifier}`, {
@@ -30,6 +29,7 @@ const SingleBook = () => {
     fetch(url)
       .then((res) => res.json())
       .then((result) => {
+        console.log(result);
         setBook({ ...result[0] });
       });
   }, []);
@@ -45,6 +45,19 @@ const SingleBook = () => {
       </section>
     );
   }
+
+  if (book?.answer) {
+    return (
+      <section className="single-book">
+        <div className="header-single-book no-book">
+          <div className="text-container">
+            <h1>{`${book.answer} 🦄`}</h1>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="single-book">
       <div className="header-single-book">
@@ -108,7 +121,6 @@ const SingleBook = () => {
                 setIsGalleryOpen(true);
               }}
             >
-              <BsBook />
               <p>Примеры страниц</p>
             </button>
           )}

@@ -138,7 +138,15 @@ app.put('/editbook', (req, res) => {
 app.get('/books/:id', (req, res) => {
   const { id } = req.params;
   const bookData = booksList.filter((book) => book.id === id);
-  res.json(bookData);
+  if (bookData.length) {
+    res.json(bookData);
+  } else {
+    res.json([
+      {
+        answer: 'Книга не найдена',
+      },
+    ]);
+  }
 });
 
 app.delete('/books/:id', (req, res) => {
