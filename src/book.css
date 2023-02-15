@@ -1,8 +1,8 @@
-/* ===SingleBook=== */
+/* ===Book=== */
 
 /* ===Hero image */
-.header-single-book {
-  color: white;
+.header-book {
+  color: rgb(255, 255, 255);
   max-width: 80vw;
   max-height: 25rem;
   padding: 1rem;
@@ -26,7 +26,7 @@
   margin: auto;
 }
 
-.header-single-book::after {
+.header-book::after {
   content: '';
   position: absolute;
   z-index: -2;
@@ -35,10 +35,6 @@
   left: 0;
   bottom: 0;
   right: 0;
-}
-
-.header-single-book.no-book::after {
-  background: linear-gradient(45deg, var(--orange-color), 70%, purple);
 }
 
 .text-container {
@@ -70,14 +66,14 @@
   border-radius: 2rem;
 }
 
-/* ===Main SingleBook */
+/* ===Main book */
 
-.main-single-book {
+.main-book {
   display: flex;
   gap: 3rem;
 }
 /* ===Aside=== */
-.single-book-aside {
+.book-aside {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -109,7 +105,7 @@
 
 .buy-btn,
 .remove-btn,
-.edit-single-book-btn {
+.edit-btn {
   padding: 0.4rem 0 0.6rem 0;
   text-align: center;
   font-size: 1.2rem;
@@ -131,8 +127,8 @@
 }
 
 .buy-btn.disabled {
-  background-color: #eee;
-  color: #777;
+  background-color: rgb(238, 238, 238);
+  color: rgb(119, 119, 119);
 }
 
 .remove-btn {
@@ -148,17 +144,17 @@
   background-color: var(--red-btn-color-active);
 }
 
-.edit-single-book-btn {
-  color: hsl(0, 0%, 25%);
+.edit-btn {
+  color: rgb(64, 64, 64);
   transition: all 0.3s linear;
 }
 
-.edit-single-book-btn:hover {
-  background-color: hsl(0, 0%, 95%);
+.edit-btn:hover {
+  background-color: rgb(242, 242, 242);
 }
 
-.edit-single-book-btn:active {
-  background-color: hsl(0, 0%, 90%);
+.edit-btn:active {
+  background-color: rgb(230, 230, 230);
 }
 
 .gallery-btn {

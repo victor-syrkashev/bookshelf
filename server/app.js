@@ -1,24 +1,21 @@
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
-const booksJson = fs.readFileSync('./db/data.json', 'utf8');
+const booksJson = fs.readFileSync(
+  path.resolve(__dirname, '../db/data.json'),
+  'utf8'
+);
+
 let booksList = JSON.parse(booksJson);
 const port = 8000;
 const itemsPerPage = 12;
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-Requested-With, content-type'
-  );
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+app.use(express.static(path.resolve(__dirname, '../build')));
+app.use(express.static(path.resolve(__dirname, '../build/static')));
 
 function reverseArray(array) {
   const newArray = [];
@@ -45,7 +42,7 @@ function getListByParam(list, param, index) {
   return [...uniqueValues];
 }
 
-app.get('/', (req, res) => {
+app.get('/API/get-books', (req, res) => {
   const { sort } = req.query;
   const { author } = req.query;
   const { genre } = req.query;
@@ -108,21 +105,19 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/books', (req, res) => {
+app.get('/API/get-books-genres', (req, res) => {
   const allGenresList = getListByParam(booksList, 'genres');
   res.json(allGenresList);
 });
 
-app.post('/books', (req, res) => {
+app.post('/API/post-new-book', (req, res) => {
   const newBook = req.body;
   booksList.push(newBook);
   fs.writeFileSync('./db/data.json', JSON.stringify(booksList));
-  res.json({
-    answer: 'Книга была успешно добавлена на полку',
-  });
+  res.status(200).send();
 });
 
-app.put('/editbook', (req, res) => {
+app.put('/API/put-book', (req, res) => {
   const editBook = req.body;
   booksList.forEach((el, index) => {
     if (el.id === editBook.id) {
@@ -130,31 +125,29 @@ app.put('/editbook', (req, res) => {
     }
   });
   fs.writeFileSync('./db/data.json', JSON.stringify(booksList));
-  res.json({
-    answer: 'Изменения успешно сохранены',
-  });
+  res.status(200).send();
 });
 
-app.get('/books/:id', (req, res) => {
+app.get('/API/get-book/:id', (req, res) => {
   const { id } = req.params;
   const bookData = booksList.filter((book) => book.id === id);
   if (bookData.length) {
-    res.json(bookData);
+    res.json(bookData[0]);
   } else {
-    res.json([
-      {
-        answer: 'Книга не найдена',
-      },
-    ]);
+    res.status(404).send();
   }
 });
 
-app.delete('/books/:id', (req, res) => {
+app.delete('/API/delete-book/:id', (req, res) => {
   const idToDelete = req.params.id;
   const newBooksList = booksList.filter((book) => book.id !== idToDelete);
   fs.writeFileSync('./db/data.json', JSON.stringify(newBooksList));
   booksList = newBooksList;
   res.end();
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../build/index.html'));
 });
 
 app.listen(port, () => {

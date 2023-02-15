@@ -22,7 +22,7 @@ const Home = () => {
 
   const history = createBrowserHistory();
   const urlWithSearchParams = (object, pageIndex, port = '8000') => {
-    const url = new URL(`http://localhost:${port}/`);
+    const url = new URL(`http://localhost:${port}/API/get-books`);
     url.searchParams.set('page', pageIndex);
     for (const key in object) {
       if (object[key] !== '') {
@@ -48,7 +48,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const url = urlWithSearchParams(filter, activeButtonId, '3000');
+    const url = urlWithSearchParams(filter, activeButtonId, '8000');
     history.push(url.search);
   }, [activeButtonId, filter]);
 

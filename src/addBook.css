@@ -11,7 +11,7 @@
 }
 
 .form-container {
-  background: hsl(81, 53%, 90%);
+  background: rgb(234, 243, 216);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
   border-radius: 2rem;
   margin: 2rem auto 5rem auto;
@@ -21,7 +21,7 @@
 }
 
 .form-container.finished {
-  background: hsl(10, 61%, 90%);
+  background: rgb(245, 219, 214);
 }
 
 .form-fields-container {
@@ -59,7 +59,7 @@ input::placeholder {
 }
 
 .submit-btn {
-  background-color: hsl(81, 53%, 70%);
+  background-color: rgb(191, 219, 138);
   border: none;
   border-radius: 0.5rem;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
@@ -74,11 +74,11 @@ input::placeholder {
 }
 
 .submit-btn:hover {
-  background-color: hsl(81, 53%, 75%);
+  background-color: rgb(201, 225, 157);
 }
 
 .submit-btn:active {
-  background-color: hsl(81, 53%, 65%);
+  background-color: rgb(180, 213, 118);
 }
 
 .reset-btn {
@@ -133,7 +133,7 @@ fieldset {
 }
 
 .alert-success {
-  background-color: hsl(81, 53%, 70%);
+  background-color: rgb(191, 219, 138);
 }
 
 /* switch */
@@ -145,7 +145,7 @@ fieldset {
   justify-content: center;
   align-items: center;
   padding: 1rem 0;
-  background-color: hsl(50, 92%, 96%);
+  background-color: rgb(254, 251, 235);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -170,23 +170,23 @@ label[for='new'] {
   padding: 0.3rem;
   padding-left: 1rem;
   padding-right: 0.5rem;
-  background-color: hsl(81, 53%, 80%);
+  background-color: rgb(212, 231, 177);
 }
 
 label[for='finished'] {
   padding: 0.3rem;
   padding-left: 0.5rem;
   padding-right: 1rem;
-  background-color: hsl(10, 61%, 80%);
+  background-color: rgb(235, 183, 173);
 }
 
 #new:checked + label[for='new'] {
-  background-color: hsl(81, 53%, 55%);
+  background-color: rgb(158, 201, 79);
   box-shadow: inset 0 0 0.3rem rgba(0, 0, 0, 0.3);
 }
 
 #finished:checked + label[for='finished'] {
-  background-color: hsl(10, 61%, 65%);
+  background-color: rgb(220, 129, 111);
   box-shadow: inset 0 0 0.3rem rgba(0, 0, 0, 0.3);
 }
 
@@ -256,7 +256,7 @@ input[type='radio'] {
 }
 
 .age-label {
-  background: white;
+  background: rgb(255, 255, 255);
   padding: 0.2rem 0.78rem;
   cursor: pointer;
   border-left: 1px solid var(--border-color-form);
@@ -272,7 +272,7 @@ input[type='radio'] {
 }
 
 [type='radio']:checked + .age-label {
-  background-color: hsl(81, 53%, 70%);
+  background-color: rgb(191, 219, 138);
   box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
 }
 

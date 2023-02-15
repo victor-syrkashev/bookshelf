@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import '../singleBook.css';
+import '../book.css';
 import { Link, useParams } from 'react-router-dom';
+import { BsBook } from 'react-icons/bs';
 import noImage from '../no-image.svg';
 import Modal from '../components/Modal';
 import Gallery from '../components/Gallery';
+import Error from './Error';
 import { useGlobalContext } from '../components/context';
 
-const SingleBook = () => {
+const Book = () => {
   const [book, setBook] = useState({});
+  const [isError, setIsError] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const { openRemoveModal } = useGlobalContext();
   const param = useParams();
@@ -25,19 +28,34 @@ const SingleBook = () => {
   };
 
   useEffect(() => {
-    const url = `http://localhost:8000/books/${id}`;
+    const url = `http://localhost:8000/API/get-book/${id}`;
     fetch(url)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          setIsError(true);
+        } else {
+          return res.json();
+        }
+      })
       .then((result) => {
-        console.log(result);
-        setBook({ ...result[0] });
+        if (result) {
+          setBook({ ...result });
+        }
       });
   }, []);
 
+  if (isError) {
+    return (
+      <section className="book">
+        <Error />
+      </section>
+    );
+  }
+
   if (!Object.keys(book).length) {
     return (
-      <section className="single-book">
-        <div className="header-single-book">
+      <section className="book">
+        <div className="header-book">
           <div className="text-container">
             <h1>...Loading</h1>
           </div>
@@ -46,21 +64,9 @@ const SingleBook = () => {
     );
   }
 
-  if (book?.answer) {
-    return (
-      <section className="single-book">
-        <div className="header-single-book no-book">
-          <div className="text-container">
-            <h1>{`${book.answer} 🦄`}</h1>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="single-book">
-      <div className="header-single-book">
+    <section className="book">
+      <div className="header-book">
         <img
           src={book.image !== '' ? book.image : noImage}
           alt={book.title}
@@ -76,8 +82,8 @@ const SingleBook = () => {
           </ul>
         </div>
       </div>
-      <main className="main-single-book">
-        <aside className="single-book-aside">
+      <main className="main-book">
+        <aside className="book-aside">
           <div className="aside-image-container">
             <img
               src={book.image !== '' ? book.image : noImage}
@@ -102,7 +108,7 @@ const SingleBook = () => {
             Удалить
           </button>
           <Link
-            className="edit-single-book-btn"
+            className="edit-btn"
             to="../add-book"
             state={{ book }}
             onClick={() => {
@@ -121,6 +127,7 @@ const SingleBook = () => {
                 setIsGalleryOpen(true);
               }}
             >
+              <BsBook />
               <p>Примеры страниц</p>
             </button>
           )}
@@ -153,4 +160,4 @@ const SingleBook = () => {
   );
 };
 
-export default SingleBook;
+export default Book;

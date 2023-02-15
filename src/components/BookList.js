@@ -23,7 +23,7 @@ const BookList = ({
     );
   }
   const removeBook = async (id) => {
-    await fetch(`http://localhost:8000/books/${id}`, {
+    await fetch(`http://localhost:8000/API/delete-book/${id}`, {
       method: 'DELETE',
     });
     const url = urlWithSearchParams(filter, activeButtonId);

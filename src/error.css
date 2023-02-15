@@ -11,7 +11,12 @@
 .error-header {
   font-size: 7rem;
   text-align: center;
-  background: linear-gradient(45deg, var(--orange-color), 70%, purple);
+  background: linear-gradient(
+    45deg,
+    var(--orange-color),
+    70%,
+    rgb(128, 0, 128)
+  );
   background-clip: text;
   color: transparent;
 }

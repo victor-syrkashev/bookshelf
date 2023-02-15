@@ -128,28 +128,27 @@ const AddBook = () => {
     e.preventDefault();
 
     if (isEditing) {
-      fetch('http://localhost:8000/editbook', {
+      fetch('http://localhost:8000/API/put-book', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log(result);
+      }).then((res) => {
+        if (res.ok) {
           openInformModal();
           navigate(-1);
-        });
+        }
+      });
     } else {
-      fetch('http://localhost:8000/books', {
+      fetch('http://localhost:8000/API/post-new-book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
-      })
-        .then((res) => res.json())
-        .then((result) => {
+      }).then((res) => {
+        if (res.ok) {
           setId(new Date().getTime().toString());
-          showAlert(result.answer, 'success');
-        });
+          showAlert('Книга была успешно добавлена на полку', 'success');
+        }
+      });
     }
   };
 
@@ -213,7 +212,7 @@ const AddBook = () => {
       textArea.style.height = `${scHeight}px`;
     }
     textArea.addEventListener('keyup', changeHight);
-    fetch('http://localhost:8000/books')
+    fetch('http://localhost:8000/API/get-books-genres')
       .then((res) => res.json())
       .then((result) => {
         setGenresList(result);
