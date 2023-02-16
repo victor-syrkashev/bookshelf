@@ -19,13 +19,6 @@
   border-radius: 1rem;
   padding: 4rem 2.5rem 3rem 2.5rem;
   box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-areas:
-    'title title'
-    'sub     dec';
-  column-gap: 2rem;
-  row-gap: 3rem;
-  place-items: center;
 }
 
 .modal-container p {
@@ -42,7 +35,7 @@ button.close-modal {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   font-size: 1.2rem;
   color: rgb(200, 200, 200);
   transition: all 0.3s linear;
@@ -57,6 +50,12 @@ button.close-modal:active {
   color: rgb(150, 150, 150);
 }
 
+.btn-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 3rem;
+}
+
 button.submit {
   background-color: var(--red-btn-color);
   font-size: 1.3rem;
@@ -64,8 +63,6 @@ button.submit {
   border-radius: 0.2rem;
   color: rgb(255, 255, 255);
   border: 1px solid var(--red-btn-color);
-  grid-area: sub;
-  justify-self: end;
   transition: all 0.3s linear;
 }
 
@@ -84,8 +81,6 @@ button.decline {
   border-radius: 0.2rem;
   color: rgb(150, 150, 150);
   border: 1px solid rgb(150, 150, 150);
-  grid-area: dec;
-  justify-self: start;
   transition: all 0.3s linear;
 }
 

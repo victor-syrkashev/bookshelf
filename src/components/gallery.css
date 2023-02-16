@@ -1,0 +1,99 @@
+.gallery {
+  display: none;
+}
+
+.gallery.show-gallery {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(245, 245, 245, 0.8);
+  display: grid;
+  place-items: center;
+}
+
+.gallery-container {
+  display: grid;
+  height: 90vh;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+}
+
+.main img {
+  width: 45vw;
+  height: 70vh;
+  object-fit: contain;
+}
+
+.gallery-previous-btn,
+.gallery-next-btn,
+.close-gallery-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 2rem;
+  color: var(--text-light-color);
+  transition: color 0.2s linear;
+}
+
+.gallery-previous-btn:hover,
+.gallery-next-btn:hover {
+  color: var(--blue-color);
+}
+
+.gallery-previous-btn:active,
+.gallery-next-btn:active {
+  color: var(--blue-color-active);
+}
+
+.gallery-previous-btn,
+.gallery-next-btn {
+  height: 50vh;
+  width: 3rem;
+}
+
+.close-gallery-btn {
+  align-self: flex-start;
+}
+
+.close-gallery-btn:hover {
+  color: var(--red-btn-color);
+}
+
+.close-gallery-btn:active {
+  color: var(--red-btn-color-active);
+}
+
+.disabled-btn {
+  color: var(--placeholder-color);
+}
+
+.preview {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.preview button {
+  border: none;
+  background: none;
+  border-radius: 0.5rem;
+  padding: 0;
+}
+
+.preview img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+}
+
+.preview .active-preview {
+  border: 1px solid var(--blue-color);
+}

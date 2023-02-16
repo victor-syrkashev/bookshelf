@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header>
       <div className="icon">
-        <img src="Bookshelf.svg" alt="" />
+        <img src="/Bookshelf.svg" alt="" />
         <h1>bookshelf</h1>
       </div>
       <Menu />

@@ -1,8 +1,8 @@
-/* ===SingleBook=== */
+/* ===Book=== */
 
 /* ===Hero image */
-.header-single-book {
-  color: white;
+.header-book {
+  color: rgb(255, 255, 255);
   max-width: 80vw;
   max-height: 25rem;
   padding: 1rem;
@@ -26,7 +26,7 @@
   margin: auto;
 }
 
-.header-single-book::after {
+.header-book::after {
   content: '';
   position: absolute;
   z-index: -2;
@@ -66,14 +66,14 @@
   border-radius: 2rem;
 }
 
-/* ===Main SingleBook */
+/* ===Main book */
 
-.main-single-book {
+.main-book {
   display: flex;
   gap: 3rem;
 }
 /* ===Aside=== */
-.single-book-aside {
+.book-aside {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,8 @@
 }
 
 .buy-btn,
-.remove-btn {
+.remove-btn,
+.edit-btn {
   padding: 0.4rem 0 0.6rem 0;
   text-align: center;
   font-size: 1.2rem;
@@ -126,8 +127,8 @@
 }
 
 .buy-btn.disabled {
-  background-color: #eee;
-  color: #777;
+  background-color: rgb(238, 238, 238);
+  color: rgb(119, 119, 119);
 }
 
 .remove-btn {
@@ -143,10 +144,25 @@
   background-color: var(--red-btn-color-active);
 }
 
+.edit-btn {
+  color: rgb(64, 64, 64);
+  transition: all 0.3s linear;
+}
+
+.edit-btn:hover {
+  background-color: rgb(242, 242, 242);
+}
+
+.edit-btn:active {
+  background-color: rgb(230, 230, 230);
+}
+
 .gallery-btn {
+  background: none;
+  border: none;
   text-align: center;
   margin-top: 1rem;
-  cursor: default;
+  cursor: pointer;
   transition: color 0.2s linear;
   font-size: 1.7rem;
   color: var(--text-color);
