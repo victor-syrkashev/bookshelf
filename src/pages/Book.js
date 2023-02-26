@@ -17,7 +17,7 @@ const Book = () => {
   const id = param.bookId;
 
   const removeBook = async (identifier) => {
-    await fetch(`http://localhost:8000/books/${identifier}`, {
+    await fetch(`http://localhost:8000/DELETE/api/book/${identifier}`, {
       method: 'DELETE',
     });
     window.history.back();
@@ -28,7 +28,7 @@ const Book = () => {
   };
 
   useEffect(() => {
-    const url = `http://localhost:8000/API/get-book/${id}`;
+    const url = `http://localhost:8000/GET/api/book/${id}`;
     fetch(url)
       .then((res) => {
         if (!res.ok) {
