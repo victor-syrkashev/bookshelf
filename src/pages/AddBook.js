@@ -128,7 +128,7 @@ const AddBook = () => {
     e.preventDefault();
 
     if (isEditing) {
-      fetch('http://localhost:8000/API/put-book', {
+      fetch(`http://localhost:8000/api/books/${formData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -139,7 +139,7 @@ const AddBook = () => {
         }
       });
     } else {
-      fetch('http://localhost:8000/API/post-new-book', {
+      fetch('http://localhost:8000/api/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -212,7 +212,7 @@ const AddBook = () => {
       textArea.style.height = `${scHeight}px`;
     }
     textArea.addEventListener('keyup', changeHight);
-    fetch('http://localhost:8000/API/get-books-genres')
+    fetch('http://localhost:8000/api/genres')
       .then((res) => res.json())
       .then((result) => {
         setGenresList(result);
