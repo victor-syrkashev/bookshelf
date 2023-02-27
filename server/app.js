@@ -42,7 +42,7 @@ function getListByParam(list, param, index) {
   return [...uniqueValues];
 }
 
-app.get('/GET/api/books', (req, res) => {
+app.get('/api/books', (req, res) => {
   const { sort } = req.query;
   const { author } = req.query;
   const { genre } = req.query;
@@ -105,19 +105,19 @@ app.get('/GET/api/books', (req, res) => {
   });
 });
 
-app.get('/GET/api/books-genres', (req, res) => {
+app.get('/api/books-genres', (req, res) => {
   const allGenresList = getListByParam(booksList, 'genres');
   res.json(allGenresList);
 });
 
-app.post('/POST/api/new-book', (req, res) => {
+app.post('/api/new-book', (req, res) => {
   const newBook = req.body;
   booksList.push(newBook);
   fs.writeFileSync('./db/data.json', JSON.stringify(booksList));
   res.status(200).send();
 });
 
-app.put('/PUT/api/book', (req, res) => {
+app.put('/api/book', (req, res) => {
   const editBook = req.body;
   booksList.forEach((el, index) => {
     if (el.id === editBook.id) {
@@ -128,7 +128,7 @@ app.put('/PUT/api/book', (req, res) => {
   res.status(200).send();
 });
 
-app.get('/GET/api/book/:id', (req, res) => {
+app.get('/api/book/:id', (req, res) => {
   const { id } = req.params;
   const bookData = booksList.filter((book) => book.id === id);
   if (bookData.length) {
@@ -138,7 +138,7 @@ app.get('/GET/api/book/:id', (req, res) => {
   }
 });
 
-app.delete('/DELETE/api/book/:id', (req, res) => {
+app.delete('/api/book/:id', (req, res) => {
   const idToDelete = req.params.id;
   const newBooksList = booksList.filter((book) => book.id !== idToDelete);
   fs.writeFileSync('./db/data.json', JSON.stringify(newBooksList));

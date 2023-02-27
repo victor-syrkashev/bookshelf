@@ -22,7 +22,7 @@ const Home = () => {
 
   const history = createBrowserHistory();
   const urlWithSearchParams = (object, pageIndex, port = '8000') => {
-    const url = new URL(`http://localhost:${port}/GET/api/books`);
+    const url = new URL(`http://localhost:${port}/api/books`);
     url.searchParams.set('page', pageIndex);
     for (const key in object) {
       if (object[key] !== '') {
