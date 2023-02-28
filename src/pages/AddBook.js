@@ -79,7 +79,7 @@ const AddBook = () => {
     }
   }
 
-  async function resetState() {
+  function resetState() {
     setTitle('');
     setAgeRestriction('');
     setImage('');
@@ -120,7 +120,9 @@ const AddBook = () => {
     refAlertContainer.current.classList.add('show');
     setTimeout(() => {
       removeAlert();
-      refAlertContainer.current.classList.remove('show');
+      if (refAlertContainer.current) {
+        refAlertContainer.current.classList.remove('show');
+      }
     }, 5000);
   };
 
@@ -191,7 +193,9 @@ const AddBook = () => {
 
       activateBookshelfBtn(book.bookshelf);
 
-      activateAgeRestrictionBtn(book.ageRestriction);
+      if (book.ageRestriction) {
+        activateAgeRestrictionBtn(book.ageRestriction);
+      }
 
       const optionsEditing = createOptions(book.genres);
       refGenres.current.setValue(optionsEditing);

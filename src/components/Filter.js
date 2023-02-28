@@ -10,7 +10,7 @@ const Filter = ({
   authors,
   genres,
   filter,
-  urlWithSearchParams,
+  searchParams,
 }) => {
   const optionsSorting = [
     { value: 'add-asc', label: 'По добавлению (сначала новые)' },
@@ -40,8 +40,8 @@ const Filter = ({
     const selectedSort = selectOption.value;
     const newFilter = { ...filter, [filterOption]: selectedSort };
     setFilter(newFilter);
-    const url = urlWithSearchParams(newFilter, activeButtonId);
-    fetch(url)
+    const url = searchParams(newFilter, activeButtonId);
+    fetch(`/api/books/?${url.toString()}`)
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
