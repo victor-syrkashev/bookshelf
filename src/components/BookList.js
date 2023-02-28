@@ -8,7 +8,7 @@ import { useGlobalContext } from './context';
 const BookList = ({
   booksData,
   setBooksData,
-  urlWithSearchParams,
+  searchParams,
   filter,
   activeButtonId,
   setAuthorsList,
@@ -26,8 +26,8 @@ const BookList = ({
     await fetch(`/api/books/${id}`, {
       method: 'DELETE',
     });
-    const url = urlWithSearchParams(filter, activeButtonId);
-    fetch(url)
+    const url = searchParams(filter, activeButtonId);
+    fetch(`/api/books/?${url.toString()}`)
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);

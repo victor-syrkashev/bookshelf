@@ -8,7 +8,7 @@ const Pagination = ({
   activeButtonId,
   numberOfPages,
   filter,
-  urlWithSearchParams,
+  searchParams,
 }) => {
   const addActiveBtn = (index) => {
     const paginationBtns = document.querySelectorAll('.pagination-btn');
@@ -40,8 +40,8 @@ const Pagination = ({
     if (index > 0 && index <= numberOfPages) {
       index !== activeButtonId ? addActiveBtn(index) : false;
       prevAndNextBtnsCheck(index);
-      const url = urlWithSearchParams(filter, index);
-      fetch(url)
+      const url = searchParams(filter, index);
+      fetch(`/api/books/?${url.toString()}`)
         .then((res) => res.json())
         .then((result) => {
           setBooksData(result.booksData);

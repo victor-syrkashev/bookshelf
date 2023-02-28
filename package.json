@@ -19,7 +19,7 @@
   },
   "scripts": {
     "react-start": "react-scripts start",
-    "start": "nodemon server/app.js --ignore db/data.json",
+    "start": "node server/app.js --ignore db/data.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -21,20 +21,20 @@ const Home = () => {
   });
 
   const history = createBrowserHistory();
-  const urlWithSearchParams = (object, pageIndex) => {
-    const url = new URL('/api/books');
-    url.searchParams.set('page', pageIndex);
+  const searchParams = (object, pageIndex) => {
+    const url = new URLSearchParams();
+    url.append('page', pageIndex);
     for (const key in object) {
       if (object[key] !== '') {
-        url.searchParams.set(key, object[key]);
+        url.append(key, object[key]);
       }
     }
     return url;
   };
 
   useEffect(() => {
-    const url = urlWithSearchParams(filter, activeButtonId);
-    fetch(url)
+    const url = searchParams(filter, activeButtonId);
+    fetch(`/api/books/?${url.toString()}`)
       .then((res) => res.json())
       .then((result) => {
         setBooksData(result.booksData);
@@ -48,8 +48,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const url = urlWithSearchParams(filter, activeButtonId);
-    history.push(url.search);
+    const url = searchParams(filter, activeButtonId);
+    history.push(`?${url.toString()}`);
   }, [activeButtonId, filter]);
 
   if (!booksData) {
@@ -79,12 +79,12 @@ const Home = () => {
           authors={authorsList}
           genres={genresList}
           filter={filter}
-          urlWithSearchParams={urlWithSearchParams}
+          searchParams={searchParams}
         />
         <BookList
           booksData={booksData}
           setBooksData={setBooksData}
-          urlWithSearchParams={urlWithSearchParams}
+          searchParams={searchParams}
           filter={filter}
           activeButtonId={activeButtonId}
           setActiveButtonId={setActiveButtonId}
@@ -100,7 +100,7 @@ const Home = () => {
             activeButtonId={activeButtonId}
             numberOfPages={numberOfPages}
             filter={filter}
-            urlWithSearchParams={urlWithSearchParams}
+            searchParams={searchParams}
           />
         )}
       </section>
