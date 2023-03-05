@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --beige-color: hsl(50, 92%, 96%);
+  --beige-color: rgb(254, 251, 235);
   --green-color: rgb(0, 179, 158);
   --btn-hover: rgb(0, 204, 180);
   --btn-active: rgb(0, 153, 135);
   --orange-color: rgb(255, 152, 17);
-  --blue-color: hsl(206, 75%, 63%);
-  --blue-color-hover: hsl(206, 75%, 68%);
-  --blue-color-active: hsl(206, 75%, 58%);
+  --blue-color: rgb(90, 170, 231);
+  --blue-color-hover: rgb(112, 182, 235);
+  --blue-color-active: rgb(68, 159, 228);
   --brown-color: rgb(196, 154, 108);
   --text-color: rgb(34, 34, 34);
   --text-light-color: rgb(110, 110, 110);
   --placeholder-color: rgb(186, 186, 186);
-  --red-btn-color: hsl(2, 60%, 50%);
-  --red-btn-color-hover: hsl(2, 60%, 55%);
-  --red-btn-color-active: hsl(2, 60%, 45%);
+  --red-btn-color: rgb(204, 56, 51);
+  --red-btn-color-hover: rgb(209, 76, 71);
+  --red-btn-color-active: rgb(184, 50, 46);
 
   --border-color-form: rgb(186, 186, 186);
 
@@ -197,7 +197,7 @@ button.more {
   font-size: 1.3rem;
   padding: 0.5rem 4rem;
   border-radius: 0.3rem 0 0 0.3rem;
-  border-right: 1px solid white;
+  border-right: 1px solid rgb(255, 255, 255);
   cursor: pointer;
 }
 
@@ -237,11 +237,11 @@ button.more:hover + .submenu,
 }
 
 .edit-book-btn:hover {
-  background-color: hsl(0, 0%, 95%);
+  background-color: rgb(242, 242, 242);
 }
 
 .edit-book-btn:active {
-  background-color: hsl(0, 0%, 90%);
+  background-color: rgb(230, 230, 230);
 }
 
 .remove-book-btn {
@@ -315,7 +315,7 @@ button.more:hover + .submenu,
 }
 
 .pagination .active-btn {
-  color: white;
+  color: rgb(255, 255, 255);
   background-color: var(--blue-color);
 }
 
